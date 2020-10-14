@@ -1,10 +1,12 @@
 const Appointment = require('../models/appointment')
 const User = require('../models/user')
+const Doctor = require('../models/doctor')
 const moment = require('moment')
 
 exports.appointment = async (req, res) => {
     try {
         const userexist = await Appointment.findOne({ userid: req.user._id })
+
 
         if (userexist) {
             const filter = { userid: req.user._id }
@@ -78,6 +80,7 @@ exports.deleteappointment = async (req, res) => {
 
 exports.patientAppointmentList = async (req,res)=>{
     try {
+        // const appointmentList = await Appointment.find().populate({path : 'userid', select : ['name',"age"]}).exec()
         const appointmentList = await Appointment.findOne({userid:req.user._id})
     await appointmentList.populate('doctors.doctorid').execPopulate()
     res.send(appointmentList)
@@ -118,6 +121,7 @@ exports.upcomingAppointmentDoctor = async (req, res) => {
     try {
         const appointment = await Appointment.find({ 'doctors.doctorid': req.doctor._id, 'doctors.scheduled': true }).populate('userid', 'name')
 
+
         for (let ind in appointment) {
 
             appointment[ind].doctors = appointment[ind].doctors.filter((x) => {
@@ -148,7 +152,7 @@ exports.userCompletedAppointment = async (req, res) => {
     try {
         const appointment = await Appointment.find({ userid: req.user._id, 'doctors.completed': true })
         res.send(appointment)
-    } catch (error) {
+    } catch (error) { 
         res.status(400).send()
 
     }
@@ -185,7 +189,7 @@ exports.doctorCompletedAppointment = async (req, res) => {
 
 exports.doctorAppointmentDatewise = async (req, res) => {
     const appointment = await Appointment.find({ 'doctors.doctorid': req.doctor._id }).populate('userid', 'name')
-
+    
     for (let ind in appointment) {
 
         appointment[ind].doctors = appointment[ind].doctors.filter((x) => {
@@ -244,6 +248,11 @@ exports.visitedAppointment = async (req, res) => {
 
 
 exports.test = async (req, res) => {
-    const ap = await Appointment.find({})
-    res.send(arr)
+    const ag = await Doctor.aggregate([
+        {$match : {role : "Dentist"}}
+       
+    
+    ])
+  
+    res.send({ag})
 }

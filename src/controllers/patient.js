@@ -4,6 +4,8 @@ const Appointment = require('../models/appointment')
 const { validationResult } = require('express-validator')
 
 
+
+
 exports.signup=  async (req,res)=>{
 
     const user = new User(req.body)

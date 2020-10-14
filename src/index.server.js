@@ -39,8 +39,6 @@ app.use(appointmentRoutes)
 
 
 
-
-
 app.listen(process.env.PORT,()=>{
     console.log(`server is connected on ${process.env.PORT}`)
 })

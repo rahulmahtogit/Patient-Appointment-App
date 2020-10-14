@@ -32,7 +32,7 @@ exports.doctorAuthentication = async function(req,res,next){
     if(!doctor){
         throw new Error({error:"Doctor Authentication Failed"})
     }
-    req.token = token
+    req.token = token 
     req.doctor = doctor
     next()
     } catch (error) {

@@ -3,6 +3,8 @@ const Slot = require('../models/slot')
 const moment = require('moment')
 
 
+
+
 exports.signup=  async (req,res)=>{
 
     const doctor = new Doctor(req.body)
